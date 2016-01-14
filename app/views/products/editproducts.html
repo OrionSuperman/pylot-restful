@@ -1,0 +1,19 @@
+<html>
+<head>
+	<title>Edit Product</title>
+	<link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+</head>
+<body>
+	<h3>Edit Product {{product_info.id}}</h3>
+	<form action='products/update/{{product_info.id}}' method='POST'>
+		<p>Name</p>
+		<input type='text' name='name' default='{{product_info.name}}'>
+		<p>Description</p>
+		<input type='text' name='description' default='{{product_info.description}}'>
+		<p>Price</p>
+		<input type='text' name='price' default='{{product_info.price}}}'
+		<input type='submit' value='Create'>
+	</form>
+	<a href='/products'>Go back</a>
+</body>
+</html>
