@@ -33,26 +33,29 @@ class Products(Controller):
 
     def edit(self, id):
         product_info = self.models['Product'].get_product_info(id)
-        return self.load_view('editproduct.html', product_info=product_info)
+        return self.load_view('editproducts.html', product_info=product_info[0])
 
 
     def show(self, id):
+        print '*' * 50
+
         product_info = self.models['Product'].get_product_info(id)
-        return self.load_view('productinfo.html', product_info=product_info)
+        
+        return self.load_view('productinfo.html', product_info=product_info[0])
 
     def create(self):
         product_info = {
-        'name' = request.form['name'],
-        'description' = request.form['description'],
-        'price' = request.form['price']
+        'name' : request.form['name'],
+        'description' : request.form['description'],
+        'price' : request.form['price']
         }
 
-        create_product(product_info)
-        return redirect('/products')
+        self.models['Product'].create_product(product_info)
+        return redirect('/')
 
     def destroy(self):
-        self.models['Products'].destroy_product(request.form['id'])
-        return redirect('/products')
+        self.models['Product'].destroy_product(request.form['id'])
+        return redirect('/')
 
     def update(self, id):
         product_info = {
@@ -62,5 +65,6 @@ class Products(Controller):
         'price' : request.form['price']
         }
 
-        self.models['Products'].update_product(product_info)
-        return redirect('/products/show/'+request.form['id'])
+        self.models['Product'].update_product(product_info, id)
+        
+        return redirect('/products/show/'+str(id))

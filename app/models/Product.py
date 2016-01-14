@@ -29,8 +29,13 @@ class Product(Model):
 
     def destroy_product(self, id):
         query = "DELETE FROM products WHERE id='{}'".format(id)
+        self.db.query_db(query)
 
-
+    def update_product(self, info, id):
+        
+        query = "UPDATE products SET name='{}', description='{}', price={}, updated_at=NOW() WHERE id={}".format(info['name'], info['description'], info['price'], id)
+        
+        self.db.query_db(query)
 
     """
     Below is an example of a model method that queries the database for all users in a fictitious application
