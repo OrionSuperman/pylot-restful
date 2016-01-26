@@ -44,13 +44,18 @@ class Products(Controller):
         return self.load_view('productinfo.html', product_info=product_info[0])
 
     def create(self):
-        product_info = {
-        'name' : request.form['name'],
-        'description' : request.form['description'],
-        'price' : request.form['price']
-        }
+        ismoney = self.models['Product'].check_price(request.form['price'])
+        
+        if not ismoney:
+            flash('Your price must be formatted properly. Ex: 19.99')
+        else:
+            product_info = {
+            'name' : request.form['name'],
+            'description' : request.form['description'],
+            'price' : request.form['price']
+            }
 
-        self.models['Product'].create_product(product_info)
+            self.models['Product'].create_product(product_info)
         return redirect('/')
 
     def destroy(self):

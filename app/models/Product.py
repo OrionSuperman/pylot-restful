@@ -8,7 +8,7 @@
     Create a model using this template.
 """
 from system.core.model import Model
-
+import re
 class Product(Model):
     def __init__(self):
         super(Product, self).__init__()
@@ -36,6 +36,20 @@ class Product(Model):
         query = "UPDATE products SET name='{}', description='{}', price={}, updated_at=NOW() WHERE id={}".format(info['name'], info['description'], info['price'], id)
         
         self.db.query_db(query)
+
+    def check_price(self, price):
+        money = re.compile('|'.join([
+            r'^\$?(\d*\.\d{1,2})$',
+              r'^\$?(\d+)$',
+              r'^\$(\d+\.?)$',
+            ]))
+        result = money.match(price)
+        
+        if result:
+            ismoney = True
+        else:
+            ismoney = False
+        return ismoney
 
     """
     Below is an example of a model method that queries the database for all users in a fictitious application
